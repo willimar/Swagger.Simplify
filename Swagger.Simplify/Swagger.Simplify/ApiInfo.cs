@@ -38,7 +38,7 @@ namespace Swagger.Simplify
                         Reference = new OpenApiReference
                         {
                             Type = ReferenceType.SecurityScheme,
-                            Id = this.SecurityScheme.Scheme,
+                            Id = "Bearer",
                         }
                     },
                     Array.Empty<string>()

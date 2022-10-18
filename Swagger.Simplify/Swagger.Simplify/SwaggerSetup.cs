@@ -94,6 +94,7 @@ namespace Microsoft.Extensions.DependencyInjection
             });
 
             app.UseRouting();
+            app.UseAuthentication();
             app.UseAuthorization();
             app.UseCors(SwaggerSetup.AllowAnyOrigins);
 
