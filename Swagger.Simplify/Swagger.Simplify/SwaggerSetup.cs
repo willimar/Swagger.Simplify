@@ -110,9 +110,12 @@ namespace Microsoft.Extensions.DependencyInjection
             });
 
             app.UseRouting();
+
+            app.UseCors(SwaggerSetup.AllowAnyOrigins);
+            app.UseCors(SwaggerSetup.OptionsPolicy);
+
             app.UseAuthentication();
             app.UseAuthorization();
-            app.UseCors(SwaggerSetup.AllowAnyOrigins);
 
             app.UseEndpoints(endpoints =>
             {
