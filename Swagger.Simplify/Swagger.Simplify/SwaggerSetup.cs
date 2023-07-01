@@ -18,6 +18,7 @@ namespace Microsoft.Extensions.DependencyInjection
     public static class SwaggerSetup
     {
         public const string AllowAnyOrigins = "_AllowAnyOrigins";
+        public const string OptionsPolicy = "_OptionsPolicy";
 
         public static void GenerateToVersion(this IServiceCollection services, ApiInfo apiInfo)
         {
@@ -50,8 +51,17 @@ namespace Microsoft.Extensions.DependencyInjection
                         builder
                             .AllowAnyOrigin()
                             .AllowAnyMethod()
-                            .AllowAnyHeader();
+                            .AllowAnyHeader()
+                            .AllowCredentials();
                     });
+
+                options.AddPolicy(SwaggerSetup.OptionsPolicy, builder =>
+                {
+                    builder.AllowAnyOrigin()
+                           .AllowAnyHeader()
+                           .AllowAnyMethod()
+                           .AllowCredentials();
+                });
             });
         }
 
@@ -104,7 +114,7 @@ namespace Microsoft.Extensions.DependencyInjection
             });
         }
 
-        private static (AssemblyDescriptionAttribute? descriptionAttribute, AssemblyProductAttribute? productAttribute, AssemblyCopyrightAttribute? copyrightAttribute, AssemblyName? assemblyName) GetAssemblyInfo(Assembly assembly)
+        private static (AssemblyDescriptionAttribute descriptionAttribute, AssemblyProductAttribute productAttribute, AssemblyCopyrightAttribute copyrightAttribute, AssemblyName assemblyName) GetAssemblyInfo(Assembly assembly)
         {
             var assemblyInfo = assembly.GetName();
 
