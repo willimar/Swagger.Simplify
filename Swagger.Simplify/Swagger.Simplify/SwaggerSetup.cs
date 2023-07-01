@@ -41,7 +41,7 @@ namespace Microsoft.Extensions.DependencyInjection
             
         }
 
-        public static void PrepareAnyCors(this IServiceCollection services)
+        public static void PrepareAnyCors(this IServiceCollection services, string[] origins)
         {
             services.AddCors(options =>
             {
@@ -51,16 +51,22 @@ namespace Microsoft.Extensions.DependencyInjection
                         builder
                             .AllowAnyOrigin()
                             .AllowAnyMethod()
-                            .AllowAnyHeader()
-                            .AllowCredentials();
+                            .AllowAnyHeader();
                     });
+
+                options.AddDefaultPolicy(builder =>
+                {
+                    builder.WithOrigins(origins)
+                           .AllowAnyHeader()
+                           .AllowAnyMethod()
+                           .AllowCredentials();
+                });
 
                 options.AddPolicy(SwaggerSetup.OptionsPolicy, builder =>
                 {
                     builder.AllowAnyOrigin()
                            .AllowAnyHeader()
-                           .AllowAnyMethod()
-                           .AllowCredentials();
+                           .AllowAnyMethod();
                 });
             });
         }
